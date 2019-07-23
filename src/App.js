@@ -10,12 +10,20 @@ class App extends Component {
       { name: "Max", age: 28 },
       { name: "Daniel", age: 19 },
       { name: "Manu", age: 15 },
-    ]
+    ],
+    otherState: 'Some other value'
   }
 
   //Si no lo llamo de esta manera, va a hacer referencia a la clase y no al evento como tal
   switchNameHandler = () => {//-> Expresion de Handler da referencia a eventos [Buenas practicas]
     console.log('Was cliked!');
+    this.setState({//-> Cambia el estado del componente; Ejecuta el redenrizado del DOM por el nodo
+      persons: [
+        { name: "Maximilian", age: 25 },
+        { name: "Daniel Santos", age: 22 },
+        { name: "Manu", age: 15 },
+      ],
+    });
   }
 
   render() {
