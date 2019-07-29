@@ -72,6 +72,7 @@ import Person from './Person/Person'
 // Nota:
 // -> En los componentes funcionales no se usa el this.
 // -> Las variables de estado las conserva React
+// -> No se deben mutar los estados del componente
 
 const App = props => {
   // useState() -> El estado actual / Una función que lo actualiza.
@@ -83,26 +84,33 @@ const App = props => {
     ]
   });
 
+  const [ showPersons, setshowPersons ] = useState(false);
+ 
   // const [ otherState, setotherState ] = useState('Some other value'); -> Otra variable de entorno
 
-  const switchNameHandler = (newName) => {
+  const nameChangedHandler = (newName, index) => {
+    let persons = [...personsState.persons];
+
+    persons[index].name = newName;
+
     setPersonsState({//-> Se crea un set para modificar cada estado
-      persons: [
-        { name: newName, age: 25 },
-        { name: "Daniel Santos", age: 22 },
-        { name: "Manu", age: 15 },
-      ]
+      persons: persons
     });
   }
 
-  const nameChangedHandler = (event) => {
-    setPersonsState({//-> Se crea un set para modificar cada estado
-      persons: [
-        { name: "Max", age: 25 },
-        { name: event.target.value, age: 22 },
-        { name: "Manu", age: 15 },
-      ]
+  const deletePersonHandler = (index) => {
+    // let persons = personsState.persons;-> Estoy copiando la asignacion por memoria a [persons], tenemos es que copiar el elemento
+    let persons = [...personsState.persons]; //-> Realizo la copia del elemento
+
+    persons.splice(index, 1);
+    
+    setPersonsState({
+      persons: persons
     });
+  }
+
+  const tooglePersonsHandler = () => {
+    setshowPersons(!showPersons)
   }
 
   return (
@@ -111,22 +119,20 @@ const App = props => {
       <p>This is really working!</p>
       {/* Es ineficiente el onClick={() =>{switchNameHandler("Maximilian")}} ya que peude generarnos problemas de rendimiento de la aplicación */}
       {/* style={style} Nos limita; ya que no podemos usar toda la potencia del CSS */}
-      <button style={style} onClick={() =>{switchNameHandler("Maximilian")}}>Switch Name</button>
+      {/* <button style={style} onClick={() =>{switchNameHandler("Maximilian")}}>Switch Name</button> */}
 
-      <Person 
-        name={personsState.persons[0].name} 
-        age={personsState.persons[0].age}
-      />
-      <Person 
-        name={personsState.persons[1].name}
-        age={personsState.persons[1].age}
-        click={switchNameHandler.bind(this, "Max!!")}
-        changed={nameChangedHandler}
-      > My hobbies: Run in the park </Person>
-      <Person 
-        name={personsState.persons[2].name}
-        age={personsState.persons[2].age}
-      />
+      <button style={style} onClick={tooglePersonsHandler}>Switch Name</button>
+
+      {/* If pro  [showPersons && data] -> Solo muestra si es verdadero */}
+      {showPersons &&
+        <div>
+          {
+            personsState.persons.map((person, index) => {
+              return <Person key={index} click={deletePersonHandler.bind(this, index)} changed={(event) => {nameChangedHandler(event.target.value, index)}} name={person.name} age={person.age}/>
+            })
+          }
+        </div> 
+      }
     </div>
   );
 }
