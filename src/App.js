@@ -84,6 +84,21 @@ const App = props => {
     ]
   });
 
+  //Otra manera de manejar los estilos
+  const [ styleSheet, setStyle] = useState(
+    {
+      style: {
+        backgroundColor: "green",
+        color: "white",
+        font: 'inherit',
+        border: '1px solid blue',
+        padding: '8px',
+        cursor: 'pointer'
+      },
+      className: ['green', 'bold']
+    }
+  );
+
   const [ showPersons, setshowPersons ] = useState(false);
  
   // const [ otherState, setotherState ] = useState('Some other value'); -> Otra variable de entorno
@@ -110,18 +125,25 @@ const App = props => {
   }
 
   const tooglePersonsHandler = () => {
-    setshowPersons(!showPersons)
+    let styleBtn = {...styleSheet.style};
+    let className = [...styleSheet.className];
+
+    styleBtn.backgroundColor = !showPersons ? "red" : "green";
+    className = !showPersons ? ['red', 'bold'] : ['green', 'bold'];
+
+    setStyle({style: styleBtn, className: className});
+    setshowPersons(!showPersons);
   }
 
   return (
     <div className="App">
       <h1>Hi, I´m a React App</h1>
-      <p>This is really working!</p>
+      <p className={styleSheet.className.join(' ')}>This is really working!</p>
       {/* Es ineficiente el onClick={() =>{switchNameHandler("Maximilian")}} ya que peude generarnos problemas de rendimiento de la aplicación */}
       {/* style={style} Nos limita; ya que no podemos usar toda la potencia del CSS */}
       {/* <button style={style} onClick={() =>{switchNameHandler("Maximilian")}}>Switch Name</button> */}
 
-      <button style={style} onClick={tooglePersonsHandler}>Switch Name</button>
+      <button style={styleSheet.style} onClick={tooglePersonsHandler}>Toggle Name</button>
 
       {/* If pro  [showPersons && data] -> Solo muestra si es verdadero */}
       {showPersons &&
@@ -135,15 +157,6 @@ const App = props => {
       }
     </div>
   );
-}
-
-//Otra manera de manejar los estilos
-const style = {
-  backgroundColor: "white",
-  font: 'inherit',
-  border: '1px solid blue',
-  padding: '8px',
-  cursor: 'pointer'
 }
 
 export default App; 
