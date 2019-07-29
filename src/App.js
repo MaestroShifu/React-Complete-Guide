@@ -16,6 +16,11 @@ import Person from './Person/Person'
 //     otherState: 'Some other value'
 //   }
 
+//   constructor(props) {
+//    super(props);
+//    this.switchNameHandler = this.switchNameHandler.bind(this); //-> Asigna la funcion como propia de este componente
+//   }
+
 //   //Si no lo llamo de esta manera, va a hacer referencia a la clase y no al evento como tal
 //   switchNameHandler = () => {//-> Expresion de Handler da referencia a eventos [Buenas practicas]
 //     console.log('Was cliked!');
@@ -80,11 +85,21 @@ const App = props => {
 
   // const [ otherState, setotherState ] = useState('Some other value'); -> Otra variable de entorno
 
-  const switchNameHandler = () => {
+  const switchNameHandler = (newName) => {
     setPersonsState({//-> Se crea un set para modificar cada estado
       persons: [
-        { name: "Maximilian", age: 25 },
+        { name: newName, age: 25 },
         { name: "Daniel Santos", age: 22 },
+        { name: "Manu", age: 15 },
+      ]
+    });
+  }
+
+  const nameChangedHandler = (event) => {
+    setPersonsState({//-> Se crea un set para modificar cada estado
+      persons: [
+        { name: "Max", age: 25 },
+        { name: event.target.value, age: 22 },
         { name: "Manu", age: 15 },
       ]
     });
@@ -94,14 +109,35 @@ const App = props => {
     <div className="App">
       <h1>Hi, I´m a React App</h1>
       <p>This is really working!</p>
+      {/* Es ineficiente el onClick={() =>{switchNameHandler("Maximilian")}} ya que peude generarnos problemas de rendimiento de la aplicación */}
+      {/* style={style} Nos limita; ya que no podemos usar toda la potencia del CSS */}
+      <button style={style} onClick={() =>{switchNameHandler("Maximilian")}}>Switch Name</button>
 
-      <button onClick={switchNameHandler}>Switch Name</button>
-
-      <Person name={personsState.persons[0].name} age={personsState.persons[0].age} />
-      <Person name={personsState.persons[1].name} age={personsState.persons[1].age}> My hobbies: Run in the park </Person>
-      <Person name={personsState.persons[2].name} age={personsState.persons[2].age} />
+      <Person 
+        name={personsState.persons[0].name} 
+        age={personsState.persons[0].age}
+      />
+      <Person 
+        name={personsState.persons[1].name}
+        age={personsState.persons[1].age}
+        click={switchNameHandler.bind(this, "Max!!")}
+        changed={nameChangedHandler}
+      > My hobbies: Run in the park </Person>
+      <Person 
+        name={personsState.persons[2].name}
+        age={personsState.persons[2].age}
+      />
     </div>
   );
+}
+
+//Otra manera de manejar los estilos
+const style = {
+  backgroundColor: "white",
+  font: 'inherit',
+  border: '1px solid blue',
+  padding: '8px',
+  cursor: 'pointer'
 }
 
 export default App; 
