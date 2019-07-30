@@ -4,11 +4,15 @@ import './Person.css'
 //-> Functional components [Es la mejor practica]
 const person = (props) => {
     // return <p>I´m a Person and I am { Math.floor(Math.random() * 30) } years old!</p>//-> Para que el jsx interprete el js es con { }
+
+    if(Math.random() > .7) {
+        throw new Error("Someting went wrong");
+    }
     
     //-> Cuando son mas de dos lineas, se debe poner un div para agrupar y poner parentesis ( ).
     return (
         <div className="Person">
-            <p onClick={props.click}>I´m a { props.name } and I am { props.age } years old!</p>
+            <p onClick={props.click}>I´m a <span className="Name">{ props.name }</span> and I am { props.age } years old!</p>
             <p>{ props.children }</p>
             <input type="text" onChange={props.changed} defaultValue={props.name}/>
         </div>

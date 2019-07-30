@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import './App.css';
 
 import Person from './Person/Person'
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 //-> class-based components
 // class App extends Component {
@@ -150,7 +151,8 @@ const App = props => {
         <div>
           {
             personsState.persons.map((person, index) => {
-              return <Person key={index} click={deletePersonHandler.bind(this, index)} changed={(event) => {nameChangedHandler(event.target.value, index)}} name={person.name} age={person.age}/>
+              //Manejo de componente superior: Primero evalua el componente principal y si cambia de estado da acceso al nuevo componente. [Loading - Manejo de errores personalizados - Espera de cargas] 
+              return <ErrorBoundary key={index}><Person click={deletePersonHandler.bind(this, index)} changed={(event) => {nameChangedHandler(event.target.value, index)}} name={person.name} age={person.age}/></ErrorBoundary>
             })
           }
         </div> 
