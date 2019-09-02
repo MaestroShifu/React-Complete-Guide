@@ -1,0 +1,6 @@
+.Cockpit button:hover {
+    background-color: lightgreen !important;
+    color: black;
+}
+
+/* .[nombre del componente] [clase o elemento] */

@@ -1,0 +1,1 @@
+Sirve para mguardar las imagenes, iconos o cualquier recurso externo que requiera nuestro proyecto

@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 
 import './App.css';
 
-import Person from './Person/Person'
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 //-> class-based components
 // class App extends Component {
@@ -138,23 +138,20 @@ const App = props => {
 
   return (
     <div className="App">
-      <h1>Hi, I´m a React App</h1>
-      <p className={styleSheet.className.join(' ')}>This is really working!</p>
-      {/* Es ineficiente el onClick={() =>{switchNameHandler("Maximilian")}} ya que peude generarnos problemas de rendimiento de la aplicación */}
-      {/* style={style} Nos limita; ya que no podemos usar toda la potencia del CSS */}
-      {/* <button style={style} onClick={() =>{switchNameHandler("Maximilian")}}>Switch Name</button> */}
-
-      <button style={styleSheet.style} onClick={tooglePersonsHandler}>Toggle Name</button>
+      <Cockpit
+        class={styleSheet.className.join(' ')}
+        style={styleSheet.style}
+        clicked={tooglePersonsHandler}
+      />
 
       {/* If pro  [showPersons && data] -> Solo muestra si es verdadero */}
       {showPersons &&
         <div>
-          {
-            personsState.persons.map((person, index) => {
-              //Manejo de componente superior: Primero evalua el componente principal y si cambia de estado da acceso al nuevo componente. [Loading - Manejo de errores personalizados - Espera de cargas] 
-              return <ErrorBoundary key={index}><Person click={deletePersonHandler.bind(this, index)} changed={(event) => {nameChangedHandler(event.target.value, index)}} name={person.name} age={person.age}/></ErrorBoundary>
-            })
-          }
+          <Persons 
+            persons={personsState.persons}
+            clicked={deletePersonHandler}
+            changed={nameChangedHandler}
+          />
         </div> 
       }
     </div>

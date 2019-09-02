@@ -13,8 +13,3 @@
 .bold {
   font-weight: bold;
 }
-
-button:hover {
-  background-color: lightgreen !important;
-  color: black;
-}

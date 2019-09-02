@@ -1,0 +1,7 @@
+Se guardan todos los componentes que va a poseer nuestro proyecto de react.
+
+Dentro de cada carpeta del componente, hay que saber manejar la logica que posee, ejemplo:
+
+
+Persons -> Maneja el grupo donde se hara la lista de personas
+Person -> Componente persona 

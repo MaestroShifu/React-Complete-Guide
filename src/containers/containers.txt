@@ -1,0 +1,3 @@
+-> Sirve para separar el envio de data y validacion proptypes y la generacion como tal del componente.
+-> Ayuda a ser mas reusable el codigo.
+-> Da mas claridad de codigo
