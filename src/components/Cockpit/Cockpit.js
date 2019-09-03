@@ -1,11 +1,11 @@
 import React from 'react';
 
-import classes from './Cockpit.css';//-> Importa clases especiales solo para el componente
+import './Cockpit.css';//-> Importa clases especiales solo para el componente
 
 const Cockpit = (props) => {
     return (
-        <div className={classes.Cockpit}>
-            <h1>Hi, I´m a React App</h1>
+        <div>
+            <h1>{props.title}</h1>
             <p className={props.class}>This is really working!</p>
 
             <button style={props.style} onClick={props.clicked}>Toggle Name</button>

@@ -1,66 +1,111 @@
-import React, { useState } from 'react';
-// import React, { Component } from 'react'; -> Componentes que extienden directamente de Component
+// import React, { useState } from 'react';
+import React, { Component } from 'react'; //-> Componentes que extienden directamente de Component
 
 import './App.css';
 
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 
-//-> class-based components
-// class App extends Component {
-//   state = {
-//     persons: [
-//       { name: "Max", age: 28 },
-//       { name: "Daniel", age: 19 },
-//       { name: "Manu", age: 15 },
-//     ],
-//     otherState: 'Some other value'
-//   }
+class App extends Component {
+  constructor(props) {
+    console.log('[App.js] constructor');
+    super(props);
+    
+    this.state = {
+      persons: [
+        { name: "Max", age: 28 },
+        { name: "Daniel", age: 19 },
+        { name: "Manu", age: 15 },
+      ],
+      style: {
+        backgroundColor: "green",
+        color: "white",
+        font: 'inherit',
+        border: '1px solid blue',
+        padding: '8px',
+        cursor: 'pointer'
+      },
+      className: ['green', 'bold'],
+      showPersons: false
+    };
 
-//   constructor(props) {
-//    super(props);
-//    this.switchNameHandler = this.switchNameHandler.bind(this); //-> Asigna la funcion como propia de este componente
-//   }
+    // this.tooglePersonsHandler = this.tooglePersonsHandler.bind(this);
+  }
 
-//   //Si no lo llamo de esta manera, va a hacer referencia a la clase y no al evento como tal
-//   switchNameHandler = () => {//-> Expresion de Handler da referencia a eventos [Buenas practicas]
-//     console.log('Was cliked!');
-//     this.setState({//-> Cambia el estado del componente; Ejecuta el redenrizado del DOM por el nodo
-//       persons: [
-//         { name: "Maximilian", age: 25 },
-//         { name: "Daniel Santos", age: 22 },
-//         { name: "Manu", age: 15 },
-//       ],
-//     });
-//   }
+  static getDerivedStateFromProps(props, state) {
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+  }
 
-//   render() {
-//     /* Forma tradicional de retornar */
-//     return (
-//       <div className="App">
-//         <h1>Hi, I´m a React App</h1>
-//         <p>This is really working!</p>
+  nameChangedHandler = (newName, index) => {
+    let state = {...this.state};
 
-//         <button onClick={this.switchNameHandler}>Switch Name</button>
+    state.persons[index].name = newName;
 
-//         <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-//         <Person name={this.state.persons[1].name} age={this.state.persons[1].age}> My hobbies: Run in the park </Person>
-//         <Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
-//       </div>
-//     );
+    this.setState(state);
+  }
 
-//     /* Crear un elemento -> createElement('html', configuración, 'Nodos hijos') */
-//     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hi, I´m a React App'));
-//   }
-// }
+  deletePersonHandler = (index) => {
+    let state = {...this.state};
 
-// export default App;
+    state.persons.splice(index, 1);
 
-//Datos importantes
+    this.setState(state);
+  }
 
-//-> Props: Son los atributos de configuración para el componente.
+  tooglePersonsHandler = () => {
+    let style = {...this.state.style};
+    let className = {...this.state.className};
 
-//-> State: Es la representacion del componente en un tiempo determinado, esta data puede variar en el ciclo de vida del mismo [Al detectar cambio renderiza en el DOM el componente]
+    style.backgroundColor = !this.state.showPersons ? "red" : "green";
+    className = !this.state.showPersons ? ['red', 'bold'] : ['green', 'bold'];
+
+    this.setState({style: style, className: className, showPersons: !this.state.showPersons});
+
+    console.log(this.state)
+  }
+
+  render() {
+    console.log('[App.js] render');
+
+    return (
+      <div className="App">
+        <Cockpit
+          title={this.props.appTitle}
+          class={this.state.className.join(' ')}
+          style={this.state.style}
+          clicked={this.tooglePersonsHandler}
+        />
+  
+        {/* If pro  [showPersons && data] -> Solo muestra si es verdadero */}
+        {this.state.showPersons &&
+          <div>
+            <Persons 
+              persons={this.state.persons}
+              clicked={this.deletePersonHandler}
+              changed={this.nameChangedHandler}
+            />
+          </div> 
+        }
+      </div>
+    );
+  }
+
+  componentWillMount() {
+    console.log('[App.js] componentWillMount');
+  }
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount');
+  }
+}
+
+
+
+
+
+
+
 
 
 
@@ -75,87 +120,88 @@ import Cockpit from '../components/Cockpit/Cockpit';
 // -> Las variables de estado las conserva React
 // -> No se deben mutar los estados del componente
 
-const App = props => {
-  // useState() -> El estado actual / Una función que lo actualiza.
-  const [ personsState, setPersonsState ] = useState({//-> Propiedad de ES6  “Desestructuración de Arrays” / Declara una “variable de estado del componente” / Puedes usar cuantas variables de estados quieras y con nombres diferentes
-    persons: [
-      { name: "Max", age: 28 },
-      { name: "Daniel", age: 19 },
-      { name: "Manu", age: 15 },
-    ]
-  });
+// const App = props => {
+//   // useState() -> El estado actual / Una función que lo actualiza.
+//   const [ personsState, setPersonsState ] = useState({//-> Propiedad de ES6  “Desestructuración de Arrays” / Declara una “variable de estado del componente” / Puedes usar cuantas variables de estados quieras y con nombres diferentes
+//     persons: [
+//       { name: "Max", age: 28 },
+//       { name: "Daniel", age: 19 },
+//       { name: "Manu", age: 15 },
+//     ]
+//   });
 
-  //Otra manera de manejar los estilos
-  const [ styleSheet, setStyle] = useState(
-    {
-      style: {
-        backgroundColor: "green",
-        color: "white",
-        font: 'inherit',
-        border: '1px solid blue',
-        padding: '8px',
-        cursor: 'pointer'
-      },
-      className: ['green', 'bold']
-    }
-  );
+//   //Otra manera de manejar los estilos
+//   const [ styleSheet, setStyle] = useState(
+//     {
+//       style: {
+//         backgroundColor: "green",
+//         color: "white",
+//         font: 'inherit',
+//         border: '1px solid blue',
+//         padding: '8px',
+//         cursor: 'pointer'
+//       },
+//       className: ['green', 'bold']
+//     }
+//   );
 
-  const [ showPersons, setshowPersons ] = useState(false);
+//   const [ showPersons, setshowPersons ] = useState(false);
  
-  // const [ otherState, setotherState ] = useState('Some other value'); -> Otra variable de entorno
+//   // const [ otherState, setotherState ] = useState('Some other value'); -> Otra variable de entorno
 
-  const nameChangedHandler = (newName, index) => {
-    let persons = [...personsState.persons];
+//   const nameChangedHandler = (newName, index) => {
+//     let persons = [...personsState.persons];
 
-    persons[index].name = newName;
+//     persons[index].name = newName;
 
-    setPersonsState({//-> Se crea un set para modificar cada estado
-      persons: persons
-    });
-  }
+//     setPersonsState({//-> Se crea un set para modificar cada estado
+//       persons: persons
+//     });
+//   }
 
-  const deletePersonHandler = (index) => {
-    // let persons = personsState.persons;-> Estoy copiando la asignacion por memoria a [persons], tenemos es que copiar el elemento
-    let persons = [...personsState.persons]; //-> Realizo la copia del elemento
+//   const deletePersonHandler = (index) => {
+//     // let persons = personsState.persons;-> Estoy copiando la asignacion por memoria a [persons], tenemos es que copiar el elemento
+//     let persons = [...personsState.persons]; //-> Realizo la copia del elemento
 
-    persons.splice(index, 1);
+//     persons.splice(index, 1);
     
-    setPersonsState({
-      persons: persons
-    });
-  }
+//     setPersonsState({
+//       persons: persons
+//     });
+//   }
 
-  const tooglePersonsHandler = () => {
-    let styleBtn = {...styleSheet.style};
-    let className = [...styleSheet.className];
+//   const tooglePersonsHandler = () => {
+//     let styleBtn = {...styleSheet.style};
+//     let className = [...styleSheet.className];
 
-    styleBtn.backgroundColor = !showPersons ? "red" : "green";
-    className = !showPersons ? ['red', 'bold'] : ['green', 'bold'];
+//     styleBtn.backgroundColor = !showPersons ? "red" : "green";
+//     className = !showPersons ? ['red', 'bold'] : ['green', 'bold'];
 
-    setStyle({style: styleBtn, className: className});
-    setshowPersons(!showPersons);
-  }
+//     setStyle({style: styleBtn, className: className});
+//     setshowPersons(!showPersons);
+//   }
 
-  return (
-    <div className="App">
-      <Cockpit
-        class={styleSheet.className.join(' ')}
-        style={styleSheet.style}
-        clicked={tooglePersonsHandler}
-      />
+//   return (
+//     <div className="App">
+//       <Cockpit
+//         title={props.appTitle}
+//         class={styleSheet.className.join(' ')}
+//         style={styleSheet.style}
+//         clicked={tooglePersonsHandler}
+//       />
 
-      {/* If pro  [showPersons && data] -> Solo muestra si es verdadero */}
-      {showPersons &&
-        <div>
-          <Persons 
-            persons={personsState.persons}
-            clicked={deletePersonHandler}
-            changed={nameChangedHandler}
-          />
-        </div> 
-      }
-    </div>
-  );
-}
+//       {/* If pro  [showPersons && data] -> Solo muestra si es verdadero */}
+//       {showPersons &&
+//         <div>
+//           <Persons 
+//             persons={personsState.persons}
+//             clicked={deletePersonHandler}
+//             changed={nameChangedHandler}
+//           />
+//         </div> 
+//       }
+//     </div>
+//   );
+// }
 
 export default App; 

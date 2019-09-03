@@ -5,3 +5,50 @@ Dentro de cada carpeta del componente, hay que saber manejar la logica que posee
 
 Persons -> Maneja el grupo donde se hara la lista de personas
 Person -> Componente persona 
+
+
+Componentes VS Componentes Funcionales
+
+-> Componentes:
+    1. class [XY] extends Component. Se declara como una clase
+    2. Access to State. Acceso al estado original del componente
+    3. Lifecycle Hooks. Manejo del ciclo de vida del componente
+    4. Access State and Props via "this". Se puede acceder por medio de this
+    5. this.state.XY & this.props.XY. Ejemplo de acceso al state y los props del componente 
+
+-> Functional:
+    1. const [XY] = props => {...}. Se declara como constante
+    2. Access to State [useState()]. Acceso a los diversos estados personalizados
+    3. Access Props via "props". Acceso a los props de manera directa
+    4. props.XY. Ejemplo de la manera de acceder a los datos
+
+
+
+Component LifeCycle
+-> Solo funcionan en componentes basados en clases.
+
+    LifeCycle Creacion:
+        1. constructor(props)
+            -> Se hace un llamado del super(props).
+            -> Se realiza un set State.
+            -> No se deben realizar llamados a Side-Effects [Ejecutar algo fuera de alcance a la funcion que se esta ejecutando].
+        2. getDerivedStateFromProps(props, state)
+            -> Sync state [Se utilizan cuando hay data que va a cambiar]
+            -> No se deben realizar llamados a Side-Effects [Ejecutar algo fuera de alcance a la funcion que se esta ejecutando].
+        3. render()
+            -> Prepara y estructura el JSX y el codigo en si.
+        4. [Render child Components]
+            -> Renderizara los componentes hijos
+        5. componentDidMount()
+            -> Finaliza la creacion del componente.
+            -> Se deben hacer los llamados de Side-Effects.
+            -> No se deben hacer actualizaciones en el State [Vuelve a renderizar]
+    
+
+
+
+    3. shouldComponentUpdate()
+    4. getSnapshotBeforeUpdate()
+    5. componentDidUpdate()
+    6. componentDidCatch()
+    8. componentWillUnmount()

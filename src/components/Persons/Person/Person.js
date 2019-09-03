@@ -9,7 +9,7 @@ const person = (props) => {
     // if(Math.random() > .7) {
     //     throw new Error("Someting went wrong");
     // }
-    
+    console.log('[Person.js] rendering...');
     //-> Cuando son mas de dos lineas, se debe poner un div para agrupar y poner parentesis ( ).
     return (
         <div className="Person">
