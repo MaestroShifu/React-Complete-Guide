@@ -28,8 +28,6 @@ class App extends Component {
       className: ['green', 'bold'],
       showPersons: false
     };
-
-    // this.tooglePersonsHandler = this.tooglePersonsHandler.bind(this);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -91,8 +89,13 @@ class App extends Component {
     );
   }
 
-  componentWillMount() {
-    console.log('[App.js] componentWillMount');
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('[App.js] shouldComponentUpdate');
+    return true;
+  }
+
+  componentDidUpdate() {
+    console.log('[App.js] componentDidUpdate');
   }
 
   componentDidMount() {

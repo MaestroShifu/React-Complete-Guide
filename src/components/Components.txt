@@ -44,11 +44,25 @@ Component LifeCycle
             -> Se deben hacer los llamados de Side-Effects.
             -> No se deben hacer actualizaciones en el State [Vuelve a renderizar]
     
+    LifeCycle Actualización (Props/State):
+        1. getDerivedStateFromProps(props, state)
+            -> sync State / Props.
+            -> No se deben realizar llamados a Side-Effects.
+        2. shouldComponentUpdate(nextProps, nextState)
+            -> Sirve para cancelar el proceso de actualziación.
+            -> Sirve para evaluar si react debe continuar con procesar el componente.
+            -> No se deben realizar llamados a Side-Effects.
+        3. render()
+            -> Prepara y estructura el JSX y el codigo en si.
+        4. [update child component props]
+            -> Renderizara los componentes hijos.
+        5. getSnapshotBeforeUpdate(prevProps, prevState)
+            -> Sirve para obtener el valor anterior que tenia el componente, en caso de regresar a su estado original.
+        6. componentDidUpdate()
+            -> Se llama cuando ya se finaliza la actualziacion del componente.
+            -> Se deben hacer los llamados de Side-Effects.
+            -> No se deben hacer actualizaciones en el State [Vuelve a renderizar].
+    
 
-
-
-    3. shouldComponentUpdate()
-    4. getSnapshotBeforeUpdate()
-    5. componentDidUpdate()
     6. componentDidCatch()
     8. componentWillUnmount()

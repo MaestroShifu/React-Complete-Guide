@@ -1,26 +1,19 @@
-import React from 'react'
+import React, { Component } from 'react';
+
 import './Person.css'
 
-//-> Functional components [Es la mejor practica]
-const person = (props) => {
-    // return <p>I´m a Person and I am { Math.floor(Math.random() * 30) } years old!</p>//-> Para que el jsx interprete el js es con { }
+class Person extends Component {
+    render() {
+        console.log('[Person.js] rendering...');
 
-    // NOTA: SIMULA UN ERROR  
-    // if(Math.random() > .7) {
-    //     throw new Error("Someting went wrong");
-    // }
-    console.log('[Person.js] rendering...');
-    //-> Cuando son mas de dos lineas, se debe poner un div para agrupar y poner parentesis ( ).
-    return (
-        <div className="Person">
-            <p onClick={props.click}>I´m a <span className="Name">{ props.name }</span> and I am { props.age } years old!</p>
-            <p>{ props.children }</p>
-            <input type="text" onChange={props.changed} defaultValue={props.name}/>
-        </div>
-    );//-> Cuando se usa una clase como componente se maneja [this.props] para acceder a ellos.
-};
+        return (
+            <div className="Person">
+                <p onClick={this.props.click}>I´m a <span className="Name">{ this.props.name }</span> and I am { this.props.age } years old!</p>
+                <p>{ this.props.children }</p>
+                <input type="text" onChange={this.props.changed} defaultValue={this.props.name}/>
+            </div>
+        );
+    }
+}
 
-//Nota:
-//-> Las funciones se peude pasar por medio de props de componente a componente
-
-export default person
+export default Person;

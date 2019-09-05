@@ -1,17 +1,46 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import ErrorBoundary from '../../containers/ErrorBoundary/ErrorBoundary';
 import Person from './Person/Person'
 
-const Persons = (props) => props.persons.map((person, index) => {
-    console.log('[Persons.js] rendering...');
-    //Manejo de componente superior: Primero evalua el componente principal y si cambia de estado da acceso al nuevo componente. [Loading - Manejo de errores personalizados - Espera de cargas] 
-    return <ErrorBoundary key={index}><Person 
-        click={() => props.clicked(index)} 
-        changed={(event) => {props.changed(event.target.value, index)}} 
-        name={person.name} 
-        age={person.age}
-    /></ErrorBoundary>
-});
+class Persons extends Component {
+    // static getDerivedStateFromProps(props, state) {
+    //     console.log('[Persons.js] getDerivedStateFromProps');
+    //     return state;
+    // }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('[Persons.js] shouldComponentUpdate')
+        return true;
+    }
+
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        console.log('[Persons.js] getSnapshotBeforeUpdate');
+        // return null;
+        return { message: 'snapshot!!' };
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log('[Persons.js] componentDidUpdate');
+        console.log('Snapshot: ', snapshot);
+    }
+
+    render() {
+        console.log('[Persons.js] rendering...');
+
+        return this.props.persons.map((person, index) =>{
+            return (
+                <ErrorBoundary key={index}>
+                    <Person 
+                        click={() => this.props.clicked(index)} 
+                        changed={(event) => {this.props.changed(event.target.value, index)}} 
+                        name={person.name} 
+                        age={person.age}
+                    />
+                </ErrorBoundary>
+            );
+        });
+    }
+}
 
 export default Persons;
