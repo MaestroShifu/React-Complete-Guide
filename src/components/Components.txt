@@ -62,7 +62,8 @@ Component LifeCycle
             -> Se llama cuando ya se finaliza la actualziacion del componente.
             -> Se deben hacer los llamados de Side-Effects.
             -> No se deben hacer actualizaciones en el State [Vuelve a renderizar].
-    
 
-    6. componentDidCatch()
-    8. componentWillUnmount()
+-> Componente Funcionales
+    1. useEffect: Se ejecuta en cada ciclo de renderizado. Ejemplo: useEffect(() => {}) Similar a "componentDidMount / componentDidUpdate".
+        -> useEffect(() => {}, []) Cuando es vacio refresca cada vez que un props cambie
+        -> useEffect(() => {}, [props.data]) Refresca cada vez que se actualiza ese dato en especifico

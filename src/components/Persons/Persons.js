@@ -11,6 +11,17 @@ class Persons extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         console.log('[Persons.js] shouldComponentUpdate')
+        //Para saltarse la validacion de los datos lo realizan los PureComponents automaticamente
+        // if(
+        //     nextProps.persons !==  this.props.persons ||
+        //     nextProps.changed !== this.props.changed ||
+        //     nextProps.clicked !== this.props.clicked
+        // ) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
+
         return true;
     }
 
@@ -23,6 +34,10 @@ class Persons extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         console.log('[Persons.js] componentDidUpdate');
         console.log('Snapshot: ', snapshot);
+    }
+
+    componentWillUnmount() {
+        console.log('[Persons.js] componentWillUnmount cleanup');
     }
 
     render() {

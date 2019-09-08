@@ -6,6 +6,9 @@ import './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 
+import Auxiliary from '../hoc/Auxiliary';
+import WithClass from '../hoc/WithClass';
+
 class App extends Component {
   constructor(props) {
     console.log('[App.js] constructor');
@@ -67,7 +70,7 @@ class App extends Component {
     console.log('[App.js] render');
 
     return (
-      <div className="App">
+      <Auxiliary className="App">
         <Cockpit
           title={this.props.appTitle}
           class={this.state.className.join(' ')}
@@ -85,7 +88,7 @@ class App extends Component {
             />
           </div> 
         }
-      </div>
+      </Auxiliary>
     );
   }
 
@@ -207,4 +210,4 @@ class App extends Component {
 //   );
 // }
 
-export default App; 
+export default WithClass(App, "App"); 
