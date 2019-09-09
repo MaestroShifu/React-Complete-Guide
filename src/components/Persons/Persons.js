@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
 import ErrorBoundary from '../../containers/ErrorBoundary/ErrorBoundary';
-import Person from './Person/Person'
+
+import Person from './Person/Person';
 
 class Persons extends Component {
     // static getDerivedStateFromProps(props, state) {

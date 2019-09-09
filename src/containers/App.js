@@ -9,6 +9,8 @@ import Cockpit from '../components/Cockpit/Cockpit';
 import Auxiliary from '../hoc/Auxiliary';
 import WithClass from '../hoc/WithClass';
 
+import AuthContext from '../context/auth-context';
+
 class App extends Component {
   constructor(props) {
     console.log('[App.js] constructor');
@@ -29,7 +31,8 @@ class App extends Component {
         cursor: 'pointer'
       },
       className: ['green', 'bold'],
-      showPersons: false
+      showPersons: false,
+      authenticated: false
     };
   }
 
@@ -62,8 +65,10 @@ class App extends Component {
     className = !this.state.showPersons ? ['red', 'bold'] : ['green', 'bold'];
 
     this.setState({style: style, className: className, showPersons: !this.state.showPersons});
+  }
 
-    console.log(this.state)
+  loginHandler = () => {
+    this.setState({authenticated: true})
   }
 
   render() {
@@ -71,23 +76,24 @@ class App extends Component {
 
     return (
       <Auxiliary className="App">
-        <Cockpit
-          title={this.props.appTitle}
-          class={this.state.className.join(' ')}
-          style={this.state.style}
-          clicked={this.tooglePersonsHandler}
-        />
-  
-        {/* If pro  [showPersons && data] -> Solo muestra si es verdadero */}
-        {this.state.showPersons &&
-          <div>
-            <Persons 
-              persons={this.state.persons}
-              clicked={this.deletePersonHandler}
-              changed={this.nameChangedHandler}
-            />
-          </div> 
-        }
+        <AuthContext.Provider value={{authenticated: this.state.authenticated, login: this.loginHandler}}>
+          <Cockpit
+            title={this.props.appTitle}
+            class={this.state.className.join(' ')}
+            style={this.state.style}
+            clicked={this.tooglePersonsHandler}
+          />
+          {/* If pro  [showPersons && data] -> Solo muestra si es verdadero */}
+          {this.state.showPersons &&
+            <div>
+              <Persons 
+                persons={this.state.persons}
+                clicked={this.deletePersonHandler}
+                changed={this.nameChangedHandler}
+              />
+            </div> 
+          }
+        </AuthContext.Provider>
       </Auxiliary>
     );
   }
@@ -105,9 +111,6 @@ class App extends Component {
     console.log('[App.js] componentDidMount');
   }
 }
-
-
-
 
 
 

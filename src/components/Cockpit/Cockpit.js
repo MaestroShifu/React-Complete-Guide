@@ -1,14 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 
 import './Cockpit.css';//-> Importa clases especiales solo para el componente
 
+import AuthContext from '../../context/auth-context';
+
 const Cockpit = (props) => {
+    const toogleBtnRef = useRef(null);
+    const authContext = useContext(AuthContext);
+
     useEffect(() => {
         console.log('[Cockpit.js] useEffect');
         //Http request....
         const timer = setTimeout(() => {
             alert('Saved data to cloud!! ');
         }, 1000);
+
+        toogleBtnRef.current.click();
 
         return () => {
             clearTimeout(timer);
@@ -29,7 +36,11 @@ const Cockpit = (props) => {
             <h1>{props.title}</h1>
             <p className={props.class}>This is really working!</p>
 
-            <button style={props.style} onClick={props.clicked}>Toggle Name</button>
+            <button ref={toogleBtnRef} style={props.style} onClick={props.clicked}>Toggle Name</button>
+            {/* <AuthContext.Consumer>
+                {context => <button style={props.style} onClick={context.login}>Log in</button>}
+            </AuthContext.Consumer> */}
+            <button style={props.style} onClick={authContext.login}>Log in</button>
         </div>
     );
 }
